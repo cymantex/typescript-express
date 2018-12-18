@@ -1,0 +1,5 @@
+{
+  "productionHost": "smnrkssn-sample.herokuapp.com",
+  "host": "localhost",
+  "port": 8080
+}
