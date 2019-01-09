@@ -1,7 +1,10 @@
-import {startApp} from "./setup/startApp";
-import settings from "./settings.json";
+import Server from "./Server";
+import {serverOptions} from "./settings";
+import {log} from "./utils/log";
 
-startApp(settings).catch(err => {
-    console.error(err);
-    process.exit(1);
+const server = new Server(serverOptions);
+
+server.start().catch(async err => {
+    log.error(err);
+    await server.stop();
 });

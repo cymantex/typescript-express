@@ -8,6 +8,10 @@
       "es2017",
       "esnext.asynciterable"
     ],
+    "types": [
+      "node",
+      "mocha"
+    ],
     "outDir": "./build",
     "sourceMap": true,
     "allowJs": true,
@@ -23,8 +27,6 @@
     "resolveJsonModule": true
   },
   "include": [
-    "scripts.ts",
-    "scripts/",
     "server/"
   ]
 }

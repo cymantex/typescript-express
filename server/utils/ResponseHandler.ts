@@ -13,7 +13,7 @@ const {
     CREATED
 } = httpCodes;
 
-const printErrorIfDevelopment = (err: Error) => {
+const printErrorIfDevelopment = (err: any) => {
     if(constants.isDevelopment) console.error(err);
 };
 
@@ -36,12 +36,12 @@ export default class ResponseHandler {
         this.res.sendStatus(CREATED);
     };
 
-    sendNotFound(err: Error) {
+    sendNotFound(err: any) {
         printErrorIfDevelopment(err);
-        this.res.status(NOT_FOUND).send(err.toString());
+        this.res.status(NOT_FOUND).send(ResponseHandler.parseError(err));
     };
 
-    sendUnauthorized(err: Error) {
+    sendUnauthorized(err: any) {
         printErrorIfDevelopment(err);
         this.res.sendStatus(UNAUTHORIZED);
     };
@@ -50,15 +50,24 @@ export default class ResponseHandler {
         this.res.sendStatus(METHOD_NOT_ALLOWED);
     };
 
-    sendSomethingWentWrong(err: Error) {
+    sendSomethingWentWrong(err: any) {
         printErrorIfDevelopment(err);
-        this.res.status(SOMETHING_WENT_WRONG).send(err.toString());
+        this.res.status(SOMETHING_WENT_WRONG).send(ResponseHandler.parseError(err));
     };
 
-    sendBadRequest(err: Error) {
+    sendBadRequest(err: any) {
         printErrorIfDevelopment(err);
-        this.res.status(BAD_REQUEST).send(err.toString());
+        this.res.status(BAD_REQUEST).send(ResponseHandler.parseError(err));
     };
+
+    private static parseError(err: any): any {
+        return (err instanceof Error)
+            ? ({
+                message: err.message,
+                name: err.name
+            })
+            : err;
+    }
 
     handlePromiseResponse(promise: Promise<any>) {
         return promise
